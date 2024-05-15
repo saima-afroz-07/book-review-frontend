@@ -1,0 +1,47 @@
+<app-home></app-home>
+
+<div>
+    <mat-form-field appearance="fill">
+        <input matInput [(ngModel)]="searchTerm" placeholder="Search by Book or Author" (input)="applyFilter()">
+    </mat-form-field>
+
+    <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+      
+        <ng-container matColumnDef="Book">
+          <th mat-sort-header="book_name" mat-header-cell *matHeaderCellDef> Book </th>
+          <td mat-cell *matCellDef="let element"> {{element.book_name}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="Author">
+          <th mat-sort-header="book_author" mat-header-cell *matHeaderCellDef> Author </th>
+          <td mat-cell *matCellDef="let element"> {{element.book_author}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="Rating">
+          <th mat-header-cell *matHeaderCellDef> Rating </th>
+          <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Review">
+            <th mat-header-cell *matHeaderCellDef> Review </th>
+            <td mat-cell *matCellDef="let element"> {{element.review_text}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <button class="btn btn-sm btn-danger mx-1" (click)="deleteReview(element._id)">Delete</button>
+                <button class="btn btn-sm btn-secondary mx-1" [routerLink]="['/edit', element._id]">Edit</button>
+            </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+      
+</div>
+
+<ng-template #noReview>
+    <p>No Review Available!</p>
+</ng-template>

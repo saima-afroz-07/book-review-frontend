@@ -1,0 +1,42 @@
+<app-home></app-home>
+
+<h3 class="mt-5 mb-3">Create a new review</h3>
+
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+    <div  class="row mb-3">
+        <div class="col">
+            <label class="form-label">Rating:</label><br/>
+            <div class="form-check form-check-inline" *ngFor="let key of getRatingKeys()">
+                  <!-- <input type="radio" value="ratingEnum[key]" formControlName="rating">
+                  {{ key }} -->
+                    <input class="form-check-input" type="radio" id={{key}} formControlName="rating" value={{key}}>
+                    <label class="form-check-label" for={{key}}>{{key}}</label>
+              </div>
+            <small class="text-danger" *ngIf="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched">
+                Rating is required.
+            </small>
+        </div>
+        <div class="col">
+            <label class="form-label">Review:</label>
+            <input class="form-control" type="text" formControlName="review_text">
+            <small class="text-danger" *ngIf="reviewForm.get('review_text')?.invalid && reviewForm.get('review_text')?.touched">
+                Review text is required.
+            </small>
+        </div>
+    </div>
+
+    <div  class="row mb-3">
+        <div class="col">
+            <label class="form-label">Select Book:</label>
+            <select class="form-select form-select-sm" aria-label="Small select example" formControlName="book_id" >
+                <option selected value="">Select Book</option>
+                <option *ngFor="let item of books" value={{item._id}}>{{item.title}}</option>
+            </select>
+            <small class="text-danger" *ngIf="reviewForm.get('book_id')?.invalid && reviewForm.get('book_id')?.touched">
+                Book is required.
+            </small>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="reviewForm.invalid">Submit</button>
+</form>
